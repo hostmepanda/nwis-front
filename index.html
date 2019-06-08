@@ -61,8 +61,26 @@
                     </nav>
                 </div>
 
+                <div v-if="modes.problemPage" class="row justify-content-center mb-2">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-9 col-12">
+                            Название
+                        </div>
+                        <div class="col-lg-9 col-12">
+                            Описание
+                        </div>
+                        <div class="col-lg-9 col-12">
+                            Набор датасэтов
+                        </div>
+                        <div class="col-lg-9 col-12">
+                            Набор датасэтов
+                        </div>
+                    </div>
+                </div>
                 <div v-if="modes.userPage" class="row justify-content-center mb-2">
-                    <div class="text-left col-12 pt-2 pb-2 pl-4 ml-3">
+                    <div>&nbsp;</div>
+                    <div class="h4 text-left col-9">Личный кабинет</div>
+                    <div class="text-left col-9 pt-2 pb-2 pl-4 ml-3" style="display:block;">
                         <div class="" @click="switchTabUserPage()"
                             :class="{'btn btn-primary':modes.userPageTab=='actual','btn btn-outline-primary':modes.userPageTab=='fixed'}">
                             Список актуальных проблем
@@ -73,21 +91,27 @@
                         </div>
                     </div>
                         
-                    <div class="col-12 row justify-content-center" v-for="(curProblem, curPKey, curPInd) in globalDataSets.currentUserProblems">
-                        <div class="col-9 row">
+                    <div class="col-12 row justify-content-around" v-for="(curProblem, curPKey, curPInd) in globalDataSets.currentUserProblems">
+                        <div class="col-9 row mh-179">
                             <div class="alert alert-primary col-7">
-                              <div class="h5">{{curProblem.name}}</div>
+                              <div class="row">
+                                  <div class="col-7">{{curProblem.name}}</div>
+                                  <div class="col text-right row">
+                                      <div class="btn btn-primary mr-2" @click="openProblem(curProblem.id)"><a class="">Перейти к проблеме</a> </div>
+                                    <div class="btn btn-outline-dark mr-1"><span><i class="fab fa-twitter"></i></span></div>
+                                    <div class="btn btn-outline-dark mr-1 "><span> <i class="fab fa-vk"></i></span></div>
+                                    <div class="btn btn-outline-dark"><span> <i class="fab fa-facebook-square"></i></span></div>
+
+                                  </div>
+                              </div>
                               <div class="h5">
                                 <span class="badge p-1 text-dark">{{curProblem.date}}</span>
                                 <span class="badge badge-secondary" v-for="(category, catKey, catIndex) in curProblem.category">{{category.name}}</span>
                               </div>
                               <p class="">{{curProblem.description}}</p>
-                              <div class="alert alert-success">
-                                {{curProblem.history[curProblem.history.length-1]}}
-                                  
-                                </div>
+
                             </div>
-                            <div class="col-5 text-center">
+                            <div class="col-5 pb-2 text-center">
                                 <template v-if="curProblem.isPublished">
                                     <div class="btn btn-outline-secondary" >Снять с публикации
                                     </div>
@@ -109,6 +133,13 @@
                                 
                                 </template>
                                 <div class="btn btn-danger">Удалить</div>
+                                <br>
+                                <div class="card card-body p-1 mt-3 text-left">
+                                    
+                                        <div class="h5">Актуальный статус</div>
+                                                                {{curProblem.history[curProblem.history.length-1].date}} -> {{curProblem.history[curProblem.history.length-1].name}}
+                                                                <p>{{curProblem.history[curProblem.history.length-1].comment}}</p>
+                                                            </div>
                             </div>
                         </div>                       
                         
@@ -207,7 +238,7 @@
 
                                 <div class="mb-1 text-muted">{{problem.date}}</div>
                                 <p class="card-text mb-auto">{{ cutOutput(problem.description,120)}}</p>
-                                <a href="#" class="stretched-link">Перейти к проблеме</a>
+                                <a href="#" class="stretched-link" @click="openProblem(problem.id)">Перейти к проблеме</a>
                             </div>
                             <div class="col-auto bg-dark">
                                 <svg class="bd-placeholder-img" width="200" height="100%" xmlns="http://www.w3.org/2000/svg"

@@ -187,13 +187,24 @@ let appChart = new Vue({
             mainScreen:true,
             authMode:false,
             userPageTab:"actual",
+            problemPage:false,
         },
         globalDataSets:{
             topProblems: testData_top10Problems,
             currentUserProblems: {},
+        },
+        problemScreen:{
+            id:0,
         }
     },
     methods: {
+        openProblem:function(id){
+            this.modes.problemPage = true;
+            this.modes.mainScreen = false;
+            this.modes.userPage = false;
+            this.problemScreen=id;
+            
+        },
         switchTabUserPage:function(){
             if (this.modes.userPageTab=="actual"){
                 this.modes.userPageTab = "fixed";
@@ -206,13 +217,14 @@ let appChart = new Vue({
             this.modes.mainScreen = false;
             this.modes.authMode=true;
             this.getUserProblems();
+            this.modes.userPageTab = 'actual';
 
         },
         getUserProblems:function(){
             // axios().then.catch();
             // this.testData_currentUserProblems = testData_currentUserProblems;
             
-            this.globalDataSets.currentUserProblems = testData_top10Problems;
+            this.globalDataSets.currentUserProblems = testData_currentUserProblems;
         },
         unAuthUser:function(){
             this.modes.authMode=false;
@@ -226,6 +238,7 @@ let appChart = new Vue({
             this.modes.userPage = true;
             this.modes.mainScreen=false;
             this.getUserProblems();
+            this.modes.userPageTab = 'actual';
             $("#modalAuth").modal("hide");
         },
         returnDataObject:function(){
