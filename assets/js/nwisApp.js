@@ -1,68 +1,63 @@
-const mainScreen={
-    "template":`
-        <div>Main Screen</div>
-    `
-}
+let testData_currentUserProblems = [
+    {
+        userList: [
+            {
+                id: "1",
+                name: "Иванов Илья",
+                role: "",
+            },
+            {
+                id: "2",
+                name: "Александр Прибылов",
+                role: "",
+            },
+            {
+                id: "3",
+                name: "Василиса Алексеевна",
+                role: "",
+            },
+            {
+                id: "4",
+                name: "Пётр Иванко",
+                role: "",
+            },
+        ],
+        name: "Экологическая угроза в Санкт-Петербург",
+        description: "Данные по экологической ситуации в г. Санкт-Петербург за 2019 год. Вывод: всё стало только хуже!",
+        dataSets: [],
+        history: [
+            {
+                date: "01.03.2019",
+                name: "Опубликовано",
+                comment: ""
+            }, {
+                date: "04.03.2019",
+                name: "Отправлено в Росприроднадзор",
+                comment: ""
+            }, {
+                date: "04.03.2019",
+                name: "Отправлено в Администрацию г. Санкт-Петербург",
+                comment: ""
+            }, {
+                date: "04.04.2019",
+                name: "Принят к исоплнению",
+                comment: "Проблема известа, решается "
+            }
+        ],
+        isPublished: true,
+        isSend: true,
+        date: "20.02.2019",
+        id: 0,
+        category: [
+            {
+                id: 1,
+                name: "Экология",
+                orgs: [],
+            },
+        ]
+    },
+];
 
-const registerUser={
-    "template":`
-    <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="">
-                        ФОРМА РЕГИСТРАЦИИ
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Продолжить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    `
-}
-const authUser={
-    "template":`
-    <div class="modal fade" id="modalAuth" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="row justify-content-center">
-                        <div class="col-12">
-                            <div class="h5">Имя пользователя</div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
-                                </div>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="h5">Пароль</div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                </div>
-                                <input type="password" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Продолжить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    `
-}
 
 let testData_top10Problems=[
 
@@ -165,43 +160,9 @@ let testData_top10Problems=[
 ];
 
 
-// let routes = [
-//     { 
-//         "path":"/",
-//         "component":mainScreen
-//     },
-//     {
-//         "path":"/lk",
-//         "component":cabinet
-//     }
-// ];
 
-// const router = new VueRouter({
-//     routes
-// })
-
-// let nwisApp=new Vue({
-//     data:{
-
-//     },
-//     methods:{
-
-//     },
-//     router
-// }).$mount("#nwisApp");
-
-
-const routes = [
-    { path: '/', component: mainScreen },
-    { path: '/register', component: registerUser },
-    { path: '/auth', component: authUser},
-]
-
-const router = new VueRouter({
-    routes // short for `routes: routes`
-})
-
-const app = new Vue({
+let appChart = new Vue({
+    el:"#nwisApp",
     data: {
         labels:{
             menuTop:[
@@ -221,28 +182,75 @@ const app = new Vue({
         dangerProblemBorder:4,
         warningProblemBorder:3,
         greenProblemBorder:0,
+        modes:{
+            userPage:false,
+            mainScreen:true,
+            authMode:false,
+            userPageTab:"actual",
+        },
         globalDataSets:{
             topProblems: testData_top10Problems,
+            currentUserProblems: {},
         }
     },
     methods: {
+        switchTabUserPage:function(){
+            if (this.modes.userPageTab=="actual"){
+                this.modes.userPageTab = "fixed";
+            }else{
+                this.modes.userPageTab = "actual";
+            }
+        },  
+        construct:function(){
+            this.modes.userPage = true;
+            this.modes.mainScreen = false;
+            this.modes.authMode=true;
+            this.getUserProblems();
+
+        },
+        getUserProblems:function(){
+            // axios().then.catch();
+            // this.testData_currentUserProblems = testData_currentUserProblems;
+            
+            this.globalDataSets.currentUserProblems = testData_top10Problems;
+        },
+        unAuthUser:function(){
+            this.modes.authMode=false;
+            this.modes.userPage=false;
+            this.modes.mainScreen=true;
+            console.log("Unauthrizing user");
+            
+        },
+        authorizedMode:function(){
+            this.modes.authMode = true;
+            this.modes.userPage = true;
+            this.modes.mainScreen=false;
+            this.getUserProblems();
+            $("#modalAuth").modal("hide");
+        },
+        returnDataObject:function(){
+            return this.$data;
+        },
         cutOutput:function(word, length){
             return (""+word).substring(0,length)+"...";
         },
         openRegisterUser:function(){
-            console.log("called openRegisterUser");
-            setTimeout(()=>{
+            // console.log("called openRegisterUser");
+            // setTimeout(()=>{
                 $("#modalRegister").modal("show");
-            },500)
+            // },500)
             
         },
         openAuthUser:function(){
-            console.log("called openAuthUser");
-            setTimeout(() => {
+            // console.log("called openAuthUser");
+            // setTimeout(() => {
                 $("#modalAuth").modal("show");
         
-            }, 500)
+            // }, 500)
         },
     },
-    router
-}).$mount('#nwisApp')
+});
+
+$("document").ready(()=>{
+    appChart.construct();
+})

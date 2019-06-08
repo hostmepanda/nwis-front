@@ -13,9 +13,8 @@
         <script src="assets/js/chart.js"></script>
         <script src="assets/js/vue-dev.js"></script>
         <script src="assets/js/axios.min.js"></script>
-        <script src="assets/js/vue-route.js" ></script>
+        <!-- <script src="assets/js/vue-route.js" ></script> -->
         <!-- <script src="assets/vue/sideWidget.vue"></script> -->
-        <script type="module" src="assets/js/nwisApp.js"></script>
     </head>
     <body>
         <div id="nwisApp">
@@ -29,12 +28,19 @@
                             <div class="blog-header-logo text-dark" href="#">Сервис Визуализации Данных</div>
                         </div>
                         <div class="col-4 d-flex justify-content-end align-items-center">
-                            <router-link to="/register">
-                                <a class="btn btn-sm btn-outline-secondary" @click="openRegisterUser()" href="#">Регистрация</a>
-                            </router-link>
-                            <router-link to="/auth">
+                            <template v-if="modes.authMode">
+                                    <a class="btn btn-sm btn-outline-secondary" @click="unAuthUser()" href="#">Выход</a>
+
+                            </template>
+                            <template v-if="!modes.authMode">
+
                                 <a class="btn btn-sm btn-outline-secondary mr-1" @click="openAuthUser()" href="#">Вход</a>
-                            </router-link>
+                                <a class="btn btn-sm btn-outline-secondary" @click="openRegisterUser()" href="#">Регистрация</a>
+
+
+
+                            </template>
+
                         </div>
                     </div>
                 </header>
@@ -55,20 +61,132 @@
                     </nav>
                 </div>
 
-                <router-view></router-view>
+                <div v-if="modes.userPage" class="row justify-content-center mb-2">
+                    <div class="text-left col-12 pt-2 pb-2 pl-4 ml-3">
+                        <div class="" @click="switchTabUserPage()"
+                            :class="{'btn btn-primary':modes.userPageTab=='actual','btn btn-outline-primary':modes.userPageTab=='fixed'}">
+                            Список актуальных проблем
+                        </div>
+                        <div class="" @click="switchTabUserPage()"
+                            :class="{'btn btn-outline-primary':modes.userPageTab=='actual','btn btn-primary':modes.userPageTab=='fixed'}">
+                            Список решённых проблем
+                        </div>
+                    </div>
+                        
+                    <div class="col-12 row justify-content-center" v-for="(curProblem, curPKey, curPInd) in globalDataSets.currentUserProblems">
+                        <div class="col-9 row">
+                            <div class="alert alert-primary col-7">
+                              <div class="h5">{{curProblem.name}}</div>
+                              <div class="h5">
+                                <span class="badge p-1 text-dark">{{curProblem.date}}</span>
+                                <span class="badge badge-secondary" v-for="(category, catKey, catIndex) in curProblem.category">{{category.name}}</span>
+                              </div>
+                              <p class="">{{curProblem.description}}</p>
+                              <div class="alert alert-success">
+                                {{curProblem.history[curProblem.history.length-1]}}
+                                  
+                                </div>
+                            </div>
+                            <div class="col-5 text-center">
+                                <template v-if="curProblem.isPublished">
+                                    <div class="btn btn-outline-secondary" >Снять с публикации
+                                    </div>
 
+                                </template>
+                                <template v-else>
+                                    <div class="btn btn-secondary">Опубликовать
+                                    </div>
 
-                <div class="row mb-2">
+                                </template>
+                                <template v-if="curProblem.isSend">
+                                    <div class="btn btn-outline-secondary disabled">Отправлено в гос. органы
+                                    </div>
+                                    
+                                </template>
+                                <template v-else>
+                                    <div class="btn btn-primary">Отправить в гос.органы
+                                    </div>
+                                
+                                </template>
+                                <div class="btn btn-danger">Удалить</div>
+                            </div>
+                        </div>                       
+                        
+                    </div>
+                </div>
+                <div v-if="modes.mainScreen" class="row mb-2">
+                        <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="">
+                                            ФОРМА РЕГИСТРАЦИИ
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+
+                                        <button type="button" class="btn btn-primary">Продолжить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="modal fade" id="modalAuth" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row justify-content-center">
+                                        <div class="col-12">
+                                            <div class="h5">Имя пользователя</div>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="h5">Пароль</div>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                                </div>
+                                                <input type="password" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+
+                    
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        @click="authorizedMode()">Продолжить</button>
+                    
+                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="bg-light col-12 col-md-4 pt-2">
                         <div class="h5">Поиск проблемы</div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false">
-                                    <title>Search</title>
-                                    <circle cx="10.5" cy="10.5" r="7.5" />
-                                    <path d="M21 21l-5.2-5.2" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
+                                        viewBox="0 0 24 24" focusable="false">
+                                        <title>Search</title>
+                                        <circle cx="10.5" cy="10.5" r="7.5" />
+                                        <path d="M21 21l-5.2-5.2" />
                                     </svg>
                                 </div>
                             </div>
@@ -83,7 +201,7 @@
                                         <div class="mb-0 d-inline-flex float-right hot-problem-cust position-absolute"
                                             :class="{'text-warning':problem.userList.length<dangerProblemBorder,'text-danger':problem.userList.length>=dangerProblemBorder}">
                                             <i class="fas fa-fire-alt"></i></div>
-                                    
+
                                     </template>
                                 </strong>
 
@@ -96,9 +214,9 @@
                                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
 
                                 </svg>
-                                <!-- <img class="top10-img" :src="`assets/img/img${problemKey}.jpg`"/> -->
+
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div class="col-md-8 col-12 ">
                         <div class="h4">Поиск данных</div>
@@ -131,10 +249,11 @@
                                 CHARTS HERE
                             </div>
                         </div>
-                        
-                       
+
+
                     </div>
                 </div>
+                
             </div>
 
             <main role="main" class="container-fluid">
@@ -150,9 +269,8 @@
                     <a href="#">Back to top</a>
                 </p>
             </footer>
-                <!-- <router-link to="/foo">Go to Foo</router-link>
-                <router-link to="/bar">Go to Bar</router-link>
-            <router-view></router-view> -->
         </div>
     </body>
+    <script src="assets/js/nwisApp.js" defer></script>
+
 </html>
