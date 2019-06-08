@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/latofonts.css">
         <link rel="stylesheet" href="assets/css/custom.css">
-        <link rel="icon" href="favicon.ico">
+        <link rel="icon" href="/favicon.ico">
         <link href="assets/css/all.css" rel="stylesheet">
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
@@ -29,28 +29,23 @@
                             <div class="blog-header-logo text-dark" href="#">Сервис Визуализации Данных</div>
                         </div>
                         <div class="col-4 d-flex justify-content-end align-items-center">
-                            <a class="text-muted" href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
-                                    viewBox="0 0 24 24" focusable="false">
-                                    <title>Search</title>
-                                    <circle cx="10.5" cy="10.5" r="7.5" />
-                                    <path d="M21 21l-5.2-5.2" />
-                                </svg>
-                            </a>
-                            <a class="btn btn-sm btn-outline-secondary mr-1" href="#">Вход</a>
-                            <a class="btn btn-sm btn-outline-secondary" href="#">Регистрация</a>
+                            <router-link to="/register">
+                                <a class="btn btn-sm btn-outline-secondary" @click="openRegisterUser()" href="#">Регистрация</a>
+                            </router-link>
+                            <router-link to="/auth">
+                                <a class="btn btn-sm btn-outline-secondary mr-1" @click="openAuthUser()" href="#">Вход</a>
+                            </router-link>
                         </div>
                     </div>
                 </header>
 
 
 
-                <div class="bg-dark mb-3 p-md-5 rounded text-white">
+                <div class="bg-dark mb-3 pb-md-3 pl-md-4 pt-md-3 rounded text-white">
                     <div class="col-md-6 px-0">
-                        <h1 class="display-4 font-italic">Сервис визуализации данных</h1>
+                        <h1 class="h3 display-4 font-italic">Сервис визуализации данных</h1>
                         <p class="lead my-3">Сервис позволяет получить представление данных из открытых источников в наглядном виде</p>
-                        <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Познакомиться со всесми возможностями</a></p>
+                        <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Познакомиться со всем функционалом</a></p>
                     </div>
                 </div>
                 <div class="nav-scroller mb-3">
@@ -59,9 +54,13 @@
                             :href="typeof(label.link)!=='null'?label.link:'#'">{{label.name}}</a>
                     </nav>
                 </div>
+
+                <router-view></router-view>
+
+
                 <div class="row mb-2">
-                    <div class="col-md-4 col-12">
-                        <div class="h3">Поиск проблемы</div>
+                    <div class="bg-light col-12 col-md-4 pt-2">
+                        <div class="h5">Поиск проблемы</div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
@@ -102,163 +101,51 @@
                         </div> 
                     </div>
                     <div class="col-md-8 col-12 ">
-                        <div class="h3">Поиск данных</div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-city"></i>
-                                </span>
+                        <div class="h4">Поиск данных</div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="h5">Регион/Город/Район</div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-city"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control">
+                                </div>
                             </div>
-                            <input class="form-control">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-chart-area"></i>
-                                </span>
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="h5">Проблемная область</div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-chart-area"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control">
+                                </div>
                             </div>
-                            <input class="form-control">
                         </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                CHARTS HERE
+                            </div>
+                        </div>
+                        
+                       
                     </div>
                 </div>
             </div>
 
             <main role="main" class="container-fluid">
                 <div class="row">
-                    <div class="col-md-8 blog-main">
-                        <h3 class="pb-4 mb-4 font-italic border-bottom">
-                            From the Firehose
-                        </h3>
-
-                        <div class="blog-post">
-                            <h2 class="blog-post-title">Sample blog post</h2>
-                            <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
-
-                            <p>This blog post shows a few different types of content that’s supported and styled with Bootstrap.
-                                Basic typography, images, and code are all supported.</p>
-                            <hr>
-                            <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
-                                Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere
-                                consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-                            <blockquote>
-                                <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare
-                                    vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            </blockquote>
-                            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
-                                fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                            <h2>Heading</h2>
-                            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo
-                                luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac
-                                consectetur ac, vestibulum at eros.</p>
-                            <h3>Sub-heading</h3>
-                            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                            <pre><code>Example code block</code></pre>
-                            <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce
-                                dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-                            <h3>Sub-heading</h3>
-                            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia
-                                bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus,
-                                tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                            </p>
-                            <ul>
-                                <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                                <li>Donec id elit non mi porta gravida at eget metus.</li>
-                                <li>Nulla vitae elit libero, a pharetra augue.</li>
-                            </ul>
-                            <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-                            <ol>
-                                <li>Vestibulum id ligula porta felis euismod semper.</li>
-                                <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-                                <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-                            </ol>
-                            <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-                        </div><!-- /.blog-post -->
-
-                        <div class="blog-post">
-                            <h2 class="blog-post-title">Another blog post</h2>
-                            <p class="blog-post-meta">December 23, 2013 by <a href="#">Jacob</a></p>
-
-                            <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
-                                Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere
-                                consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-                            <blockquote>
-                                <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare
-                                    vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            </blockquote>
-                            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
-                                fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo
-                                luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac
-                                consectetur ac, vestibulum at eros.</p>
-                        </div><!-- /.blog-post -->
-
-                        <div class="blog-post">
-                            <h2 class="blog-post-title">New feature</h2>
-                            <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
-
-                            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia
-                                bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus,
-                                tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                            </p>
-                            <ul>
-                                <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                                <li>Donec id elit non mi porta gravida at eget metus.</li>
-                                <li>Nulla vitae elit libero, a pharetra augue.</li>
-                            </ul>
-                            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
-                                fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                            <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-                        </div><!-- /.blog-post -->
-
-                        <nav class="blog-pagination">
-                            <a class="btn btn-outline-primary" href="#">Older</a>
-                            <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-                        </nav>
-
-                    </div><!-- /.blog-main -->
-
-                    <aside class="col-md-4 blog-sidebar">
-                        <div class="p-4 mb-3 bg-light rounded">
-                            <h4 class="font-italic">About</h4>
-                            <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus
-                                sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                        </div>
-
-                        <div class="p-4">
-                            <h4 class="font-italic">Archives</h4>
-                            <ol class="list-unstyled mb-0">
-                                <li><a href="#">March 2014</a></li>
-                                <li><a href="#">February 2014</a></li>
-                                <li><a href="#">January 2014</a></li>
-                                <li><a href="#">December 2013</a></li>
-                                <li><a href="#">November 2013</a></li>
-                                <li><a href="#">October 2013</a></li>
-                                <li><a href="#">September 2013</a></li>
-                                <li><a href="#">August 2013</a></li>
-                                <li><a href="#">July 2013</a></li>
-                                <li><a href="#">June 2013</a></li>
-                                <li><a href="#">May 2013</a></li>
-                                <li><a href="#">April 2013</a></li>
-                            </ol>
-                        </div>
-
-                        <div class="p-4">
-                            <h4 class="font-italic">Elsewhere</h4>
-                            <ol class="list-unstyled">
-                                <li><a href="#">GitHub</a></li>
-                                <li><a href="#">Twitter</a></li>
-                                <li><a href="#">Facebook</a></li>
-                            </ol>
-                        </div>
-                    </aside><!-- /.blog-sidebar -->
 
                 </div><!-- /.row -->
 
             </main><!-- /.container -->
 
-            <footer class="blog-footer">
-                <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
-                        href="https://twitter.com/mdo">@mdo</a>.</p>
+            <footer class="blog-footer footer-cust bg-dark text-center pt-3 pl-3 text-white pb-3 mb-0">
+                <p>Сервис разработан командой Северо-Западная Инициатива в рамках хакатона "Цифровой Прорыв"</p>
                 <p>
                     <a href="#">Back to top</a>
                 </p>

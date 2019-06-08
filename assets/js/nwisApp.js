@@ -4,6 +4,65 @@ const mainScreen={
     `
 }
 
+const registerUser={
+    "template":`
+    <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="">
+                        ФОРМА РЕГИСТРАЦИИ
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary">Продолжить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+}
+const authUser={
+    "template":`
+    <div class="modal fade" id="modalAuth" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="h5">Имя пользователя</div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="h5">Пароль</div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary">Продолжить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+}
 
 let testData_top10Problems=[
 
@@ -134,7 +193,8 @@ let testData_top10Problems=[
 
 const routes = [
     { path: '/', component: mainScreen },
-
+    { path: '/register', component: registerUser },
+    { path: '/auth', component: authUser},
 ]
 
 const router = new VueRouter({
@@ -168,7 +228,21 @@ const app = new Vue({
     methods: {
         cutOutput:function(word, length){
             return (""+word).substring(0,length)+"...";
-        }
+        },
+        openRegisterUser:function(){
+            console.log("called openRegisterUser");
+            setTimeout(()=>{
+                $("#modalRegister").modal("show");
+            },500)
+            
+        },
+        openAuthUser:function(){
+            console.log("called openAuthUser");
+            setTimeout(() => {
+                $("#modalAuth").modal("show");
+        
+            }, 500)
+        },
     },
     router
 }).$mount('#nwisApp')
