@@ -1,3 +1,14 @@
 body{
     font-family: "LatoWebMedium";
 }
+.hot-problem-cust{
+    font-size: 14rem;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    margin-left: 35%;  
+}
+.top10-img{
+    width: 150px;
+    border: 1px solid #dee2e6;    
+}

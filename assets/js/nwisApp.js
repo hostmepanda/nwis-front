@@ -158,8 +158,8 @@ const app = new Vue({
                 {name:"Экология"},
             ],
         },
-        dangerProblemBorder:2,
-        warningProblemBorder:1,
+        dangerProblemBorder:4,
+        warningProblemBorder:3,
         greenProblemBorder:0,
         globalDataSets:{
             topProblems: testData_top10Problems,

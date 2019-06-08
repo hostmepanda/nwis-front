@@ -61,15 +61,29 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-4 col-12">
+                        <div class="h3">Поиск проблемы</div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false">
+                                    <title>Search</title>
+                                    <circle cx="10.5" cy="10.5" r="7.5" />
+                                    <path d="M21 21l-5.2-5.2" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <input class="form-control">
+                        </div>
                         <div v-for="(problem, problemKey, problemIndex) in globalDataSets.topProblems"
                             class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                             <div class="col p-4 d-flex flex-column position-static">
                                 <strong class="d-inline-block mb-2 text-primary">
                                     <div class="top10-item-caption d-inline-flex">{{problem.name}}</div>
                                     <template v-if="problem.userList.length>=warningProblemBorder">
-                                        <div class="mb-0 d-inline-flex float-right"
+                                        <div class="mb-0 d-inline-flex float-right hot-problem-cust position-absolute"
                                             :class="{'text-warning':problem.userList.length<dangerProblemBorder,'text-danger':problem.userList.length>=dangerProblemBorder}">
-                                            <i class="fas fa-times"></i></div>
+                                            <i class="fas fa-fire-alt"></i></div>
                                     
                                     </template>
                                 </strong>
@@ -78,19 +92,33 @@
                                 <p class="card-text mb-auto">{{ cutOutput(problem.description,120)}}</p>
                                 <a href="#" class="stretched-link">Перейти к проблеме</a>
                             </div>
-                            <div class="col-auto d-none d-lg-block">
-                                <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
-                                    preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                                    aria-label="Placeholder: Thumbnail">
-                                    <title>Placeholder</title>
-                                    <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                                        dy=".3em">Thumbnail</text>
+                            <div class="col-auto bg-dark">
+                                <svg class="bd-placeholder-img" width="200" height="100%" xmlns="http://www.w3.org/2000/svg"
+                                    preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+
                                 </svg>
+                                <!-- <img class="top10-img" :src="`assets/img/img${problemKey}.jpg`"/> -->
                             </div>
                         </div>
                     </div>
                     <div class="col-md-8 col-12 ">
-                        
+                        <div class="h3">Поиск данных</div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-city"></i>
+                                </span>
+                            </div>
+                            <input class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-chart-area"></i>
+                                </span>
+                            </div>
+                            <input class="form-control">
+                        </div>
                     </div>
                 </div>
             </div>
