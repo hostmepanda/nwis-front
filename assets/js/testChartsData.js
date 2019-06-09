@@ -418,7 +418,7 @@ $('#mainScreeRegion .typeahead').typeahead({
     {
         name: 'states',
         source: substringMatcher(states)
-})on('select',function(suggest){
+}).on('select',function(suggest){
     console.log(suggest);
     
 });
