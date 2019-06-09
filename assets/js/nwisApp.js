@@ -405,7 +405,7 @@ let appChart = new Vue({
                 console.log(`>>> Throw ${err}`);
             })
         },
-        loginUser: function () {
+        signUp: function () {
             let data = {
                 role:"ADMIN",
                 passwords:"123",
@@ -490,9 +490,11 @@ let appChart = new Vue({
         },
         deleteProblemFromDB:function(id){
             ///api/delete-problem/{id} DELETE
-            axios({
-                method:"DELETE",
-                url: `http://localhost:8080/api/delete-problem/${id}`,
+            let deleteURL = `http://localhost:8080/api/delete-problem/${id}`;
+            console.log("Delete url", deleteURL);
+            
+            axios.delete({
+                url: deleteURL,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization": appChart.requestData.user.Authorization,
