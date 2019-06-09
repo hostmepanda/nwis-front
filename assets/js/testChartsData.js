@@ -418,8 +418,10 @@ $('#mainScreeRegion .typeahead').typeahead({
     {
         name: 'states',
         source: substringMatcher(states)
-}).on('select',function(suggest){
+    }).on('typeahead:select',function(event,suggest){
     console.log(suggest);
+        $("#regionTags").tagsinput("add", suggest);
+        $('#mainScreeRegion .typeahead').typeahead('val', '');
     
 });
 

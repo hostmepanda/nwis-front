@@ -46,3 +46,21 @@ font-size: 14pt;
     padding: 4px 5px;
     background-color: #80808047;
 }
+.tt-menu{
+    width: 100%;
+    background-color: white;
+    border: 1px solid gray;
+    padding: 2px 10px;
+    margin-top: 4px;
+    border-radius: 5px;
+    cursor: pointer;    
+}
+.bootstrap-tagsinput{
+
+    width:100%;
+    margin-top:0.25rem;
+    padding:0.25rem;
+}
+.bootstrap-tagsinput .tag {
+    color: black!important;
+}
