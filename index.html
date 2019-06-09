@@ -77,8 +77,9 @@
                                             <div class="input-group mb-3">
                                                 <select class="form-control" v-model="userData.role">
                                                     <option value="ADMIN">Администратор системы</option>
-                                                    <option value="USER">Пользователь</option>
-                                                    <option value="ORGS">Представитель Гос. Органов</option>
+                                                    <option value="ACTIVIST">Пользователь</option>
+                                                    <option value="OFFICIAL">Представитель Гос. Органов</option>
+                                                    <option value="SPONSOR">Спонсор</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -344,18 +345,36 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-6 col-12">
-                                <div class="h5">Проблемная область</div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="fas fa-chart-area"></i>
-                                        </span>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="h5">Проблемная область</div>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-chart-area"></i>
+                                                    </span>
+                                                </div>
+                                                <!-- <input class="form-control"> -->
+                                                <select class="form-control" v-model="selectedDataSet.selectedCategory">
+                                                    <option selected="selected" value="Экология">Экология</option>
+                                                </select>
+                                            
+                                            </div>
+
                                     </div>
-                                    <!-- <input class="form-control"> -->
-                                        <select class="form-control" v-model="selectedDataSet.selectedCategory">
-                                            <option selected="selected" value="Экология">Экология</option>
-                                        </select>
+                                    <div class="col-6">
+                                        <div class="h5">Ключевые слова</div>
+                                        <div id="mainScreeKeyWords">
+                                            <input class="form-control typeahead">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-10">
+
+                                        <input data-role="tagsinput" class="form-control tagsinput" id="keywordsTag">
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="row">

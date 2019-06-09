@@ -293,8 +293,11 @@ let appChart = new Vue({
             token:"",
         },
         selectedDataSet:{
-            selectedCategory:"",
+            selectedCategory:"Экология",
             selectedRegion:[],
+            selectedKeywords:[],
+            totalDataSet:[],
+            dataSetIds:{},
         }
     },
     methods: {
@@ -548,8 +551,36 @@ let appChart = new Vue({
             })
         },
     },
+    watchers:{
+        'selectedDataSet.selectedRegion':function(){
+            let addedId={};
+            for (let i = 0; i < this.selectedDataSet.selectedRegion; i++){
+                for (let j = 0; j < gloChartDataSet.length; j++){
+                    currentRegion = gloChartDataSet[j].region.valueOf();
+                    currentId = gloChartDataSet[j].id;
+                    currentCity = gloChartDataSet[j].city;
+                    currentKeyWords = gloChartDataSet[j].keyWords;
+
+                    console.log(currentRegion);
+                    console.log(currentCity);
+                    console.log(currentKeyWords);
+                    
+                    
+                    if (this.selectedDataSet.selectedRegion[i] == gloChartDataSet[j]){
+    
+                    }
+
+                }
+            }
+            selectedDataSet.totalDataSet
+        },
+    }
 });
 
 $("document").ready(()=>{
     appChart.construct();
+    $("#keywordsTag").tagsinput('add', 'измерение воды');
+    $("#keywordsTag").tagsinput('add', 'Нормативы');
+    $("#regionTags").tagsinput('add', 'Санкт-Петербург');
+    $("#regionTags").tagsinput('add','Ленинградская область');
 })

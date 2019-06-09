@@ -11,8 +11,10 @@ let grapOptions= {
 }
 
 let water_SPB_SESTR={
+    id:0,
     region:["Санкт-Петербург","Ленинградская область"],
     city:["Санкт-Петербург","Сестрорецк, Мосина"],
+    keyWords: ["Измерение воды"],
     category:["Экология"],
     dataset: {
         type: 'bar',
@@ -69,8 +71,10 @@ let water_SPB_SESTR={
 };
 
 let water_SPB_KOLPINO= {
+    id: 1,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург", "Колпино"],
+    keyWords:["Измерение воды"],
     category: ["Экология"],
     dataset: {
         type: 'bar',
@@ -129,8 +133,10 @@ let water_SPB_KOLPINO= {
 };
 
 let water_SPB_KOLPINO2 = {
+    id: 2,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург", "Сестрорецкб Коммуны"],
+    keyWords:["Измерение воды"],
     category: ["Экология"],
     dataset: {
         type: 'bar',
@@ -189,8 +195,10 @@ let water_SPB_KOLPINO2 = {
 };
 
 let air_spb_norma = {
+    id: 3,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург"],
+    keyWords: ["Измерение воздуха"],
     category: ["Экология"],
     dataset: {
         type: 'line',
@@ -198,7 +206,7 @@ let air_spb_norma = {
             labels: ['Оксид азота','Диоксид азота','Оксид углерода','Диоксид серы',],
             datasets: [
                 {
-                    label: 'Среднесуточная',
+                    label: 'Измерение воздуха: норматив среднесуточное',
                     data: [0.06, 0.04, 3, 0.05],
 
                     backgroundColor: [
@@ -213,7 +221,7 @@ let air_spb_norma = {
                     borderWidth: 3
                 },
                 {
-                    label: 'Норматив: максимально разовое',
+                    label: 'Измерение воздуха: норматив максимально разовое',
                     data: [0, 0, 5, 0],
                     backgroundColor: [
                         'rgba(255, 0, 0, 0)',
@@ -236,8 +244,10 @@ let air_spb_norma = {
 };
 
 let air_spb_spb = {
+    id: 4,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург"],
+    keyWords: ["Измерение воздуха"],
     category: ["Экология"],
     dataset: {
         type: 'line',
@@ -245,7 +255,7 @@ let air_spb_spb = {
             labels: ['Оксид углерода', 'Оксид азота', 'Диоксид азота', 'Диоксид серы',],
             datasets: [
                 {
-                    label: 'Среднесуточная',
+                    label: 'Измерение воздуха: среднесуточное',
                     data: [0.1, 0.3, 0.8, 0.1],
 
                     backgroundColor: [
@@ -266,8 +276,10 @@ let air_spb_spb = {
 };
 
 let air_spb_admiral = {
+    id: 5,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург","Адмиралтейский"],
+    keyWords: ["Измерение воздуха"],
     category: ["Экология"],
     dataset: {
         type: 'line',
@@ -275,7 +287,7 @@ let air_spb_admiral = {
             labels: ['Оксид углерода', 'Оксид азота', 'Диоксид азота', 'Диоксид серы',],
             datasets: [
                 {
-                    label: 'Среднесуточная',
+                    label: 'Измерение воздуха: среднесуточное',
                     data: [0.2, 1.0, 1.4, 0.1],
 
                     backgroundColor: [
@@ -295,8 +307,10 @@ let air_spb_admiral = {
 };
 
 let air_spb_vasil = {
+    id: 6,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург", "Василеостровский"],
+    keyWords: ["Измерение воздуха"],
     category: ["Экология"],
     dataset: {
         type: 'line',
@@ -304,7 +318,7 @@ let air_spb_vasil = {
             labels: ['Оксид углерода', 'Оксид азота', 'Диоксид азота', 'Диоксид серы',],
             datasets: [
                 {
-                    label: 'Среднесуточная',
+                    label: 'Измерение воздуха: среднесуточное',
                     data: [0.2, 0.4, 1.4, 1.7],
 
                     backgroundColor: [
@@ -324,8 +338,10 @@ let air_spb_vasil = {
 };
 
 let air_spb_viborg = {
+    id: 7,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург", "Выборгский"],
+    keyWords:["Измерение воздуха"],
     category: ["Экология"],
     dataset: {
         type: 'line',
@@ -333,7 +349,7 @@ let air_spb_viborg = {
             labels: ['Оксид углерода', 'Оксид азота', 'Диоксид азота', 'Диоксид серы',],
             datasets: [
                 {
-                    label: 'Среднесуточная',
+                    label: 'Измерение воздуха: среднесуточное',
                     data: [0.2, 0.8, 1.4, 0],
 
                     backgroundColor: [
@@ -345,16 +361,20 @@ let air_spb_viborg = {
                     borderColor: [
                         'rgba(0,150,0, 1)'
                     ],
-                    borderWidth: 3
-                }]
+                    borderWidth: 3,
+                    type: "line",
+                }],
+
         },
         grapOptions
     }
 };
 
 let air_spb_kolpino = {
+    id: 8,
     region: ["Санкт-Петербург", "Ленинградская область"],
     city: ["Санкт-Петербург", "Колписнкий"],
+    keyWords:["Измерение воздуха"],
     category: ["Экология"],
     dataset: {
         type: 'line',
@@ -362,7 +382,7 @@ let air_spb_kolpino = {
             labels: ['Оксид углерода', 'Оксид азота', 'Диоксид азота', 'Диоксид серы',],
             datasets: [
                 {
-                    label: 'Среднесуточная',
+                    label: 'Измерение воздуха: среднесуточное',
                     data: [0.1, 0.3, 0.7, 0.1],
 
                     backgroundColor: [
@@ -374,8 +394,9 @@ let air_spb_kolpino = {
                     borderColor: [
                         'rgba(0,150,0, 1)'
                     ],
-                    borderWidth: 3
-                }]
+                    borderWidth: 3,
+                    type:"line",
+                }],
         },
         grapOptions
     }
@@ -408,8 +429,8 @@ let substringMatcher = function (strs) {
     };
 };
 
-let states = ['Санкт - Петербург', 'Ленинградская область', 'Колписнкий', 'Сестрорецк', 'Мосина','Сестрорецкб Коммуны','Адмиралтейский','Василеостровский','Выборгский'];
-
+let states = ['Санкт-Петербург', 'Ленинградская область', 'Колписнкий', 'Сестрорецк', 'Мосина','Сестрорецкб Коммуны','Адмиралтейский','Василеостровский','Выборгский'];
+let keyWords = ["Измерение воды", "Измерение воздуха","Нормативные измерения"];
 $('#mainScreeRegion .typeahead').typeahead({
     hint: true,
     highlight: true,
@@ -422,10 +443,66 @@ $('#mainScreeRegion .typeahead').typeahead({
     console.log(suggest);
         $("#regionTags").tagsinput("add", suggest);
         $('#mainScreeRegion .typeahead').typeahead('val', '');
-    
-});
+        appChart.selectedDataSet.selectedRegion.push(suggest);
+        if (suggest=="Выборгский"){
+            myChart.data.dataset.push({
+                label: 'Измерение воздуха: среднесуточное',
+                data: [0.2, 0.8, 1.4, 0],
 
+                backgroundColor: [
+                    'rgba(160,0,0, 0)',
+
+
+
+                ],
+                borderColor: [
+                    'rgba(0,150,0, 1)'
+                ],
+                borderWidth: 3,
+                    type: "line",
+            });
+        }
+    });
+
+    $("#regionTags").on("itemRemoved",function(e){
+        console.log(e);
+        appChart.selectedDataSet.selectedRegion = $("#regionTags").tagsinput('items')
+
+        console.log(appChart.selectedDataSet.selectedRegion);
+        
+        
+    })
+
+$('#mainScreeKeyWords .typeahead').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+},
+    {
+        name: 'keywords',
+        source: substringMatcher(keyWords)
+    }).on('typeahead:select', function (event, suggest) {
+        console.log(suggest);
+        $("#keywordsTag").tagsinput("add", suggest);
+        $('#mainScreeKeyWords .typeahead').typeahead('val', '');
+        appChart.selectedDataSet.selectedKeywords.push(suggest);
+    });
+
+$("#keywordsTag").on("itemRemoved", function (e) {
+    console.log(e);
+    appChart.selectedDataSet.selectedKeywords = $("#keywordsTag").tagsinput('items')
+
+    console.log(appChart.selectedDataSet.selectedKeywords);
+
+
+})
+
+let emptyDataSet={
+    type: 'bar',
+    data: {},
+    grapOptions
+};
 
 
 var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, air_spb_norma.dataset);
+var myChart = new Chart(ctx, water_SPB_SESTR.dataset);
