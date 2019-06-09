@@ -13,6 +13,7 @@
         <script src="assets/js/chart.js"></script>
         <script src="assets/js/vue-dev.js"></script>
         <script src="assets/js/axios.min.js"></script>
+        <script src="assets/js/chart.min.js"></script>
         <!-- <script src="assets/js/vue-route.js" ></script> -->
         <!-- <script src="assets/vue/sideWidget.vue"></script> -->
     </head>
@@ -29,13 +30,14 @@
                         </div>
                         <div class="col-4 d-flex justify-content-end align-items-center">
                             <template v-if="modes.authMode">
-                                    <a class="btn btn-sm btn-outline-secondary" @click="unAuthUser()" href="#">Выход</a>
+                                    <div class="btn btn-sm text-underlined mr-1" @click="authorizedMode()">Коллекция данных</div>
+                                    <div class="btn btn-sm btn-outline-secondary" @click="unAuthUser()">Выход</div>
 
                             </template>
                             <template v-if="!modes.authMode">
 
-                                <a class="btn btn-sm btn-outline-secondary mr-1" @click="openAuthUser()" href="#">Вход</a>
-                                <a class="btn btn-sm btn-outline-secondary" @click="openRegisterUser()" href="#">Регистрация</a>
+                                <div class="btn btn-sm btn-outline-secondary mr-1" @click="openAuthUser()">Вход</div>
+                                <div class="btn btn-sm btn-outline-secondary" @click="openRegisterUser()">Регистрация</div>
 
 
 
@@ -44,7 +46,66 @@
                         </div>
                     </div>
                 </header>
+                <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="">
+                                    ФОРМА РЕГИСТРАЦИИ
+                                </div>
+                            </div>
+                            <div class="modal-footer">
 
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+
+                                <button type="button" class="btn btn-primary">Продолжить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalAuth" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <div class="h5">Имя пользователя</div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <div class="h5">Пароль</div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+
+
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    @click="authorizedMode()">Продолжить</button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <div class="bg-dark mb-3 pb-md-3 pl-md-4 pt-md-3 rounded text-white">
@@ -62,19 +123,57 @@
                 </div>
 
                 <div v-if="modes.problemPage" class="row justify-content-center mb-2">
+                    <div class="">&nbsp;</div>
                     <div class="row justify-content-center">
-                        <div class="col-lg-9 col-12">
-                            Название
+                        <div class="h2 col-12 text-center pt-3 pb-3">Карточка проблемы</div>
+
+                        <div class="col-lg-5 col-12 row">
+                            <div class="col-12 pt-2 pb-2 pl-0 pr-0">
+                                <div class="row justify-content-around">
+                                    <div class="col-lg-8 col-12 h4">{{problemScreen.problem.name}}</div>
+                                    <div class="col text-right row">
+                                        <div class="col-12">
+                                            <div class="btn btn-outline-dark mr-1"><span><i class="fab fa-twitter"></i></span></div>
+                                            <div class="btn btn-outline-dark mr-1 "><span> <i class="fab fa-vk"></i></span></div>
+                                            <div class="btn btn-outline-dark mr-1"><span> <i class="fab fa-facebook-square"></i></span></div>
+                                            <div class="btn btn-outline-warning"><span class="star-counts">{{problemScreen.problem.userList.length}}</span><i class="far fa-star"></i></div>
+                                        </div>
+
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                {{problemScreen.problem.date}} 
+                                <span v-for="(category) in problemScreen.problem.category" class=" badge badge-secondary mr-1">
+                                    {{category.name}}
+                                </span>
+                            </div>
+                            <div class="col-12 alert bg-light mt-2 mb-2 problem-screen-desc">
+                                {{problemScreen.problem.description}}
+                            </div>
+                            <div class="col-12">
+                                <div class="h3">Данные по проблеме</div>
+                                {{problemScreen.problem.datasets}}
+                            </div>
+                              <div class="col-12 bg-light pb-2 pt-2">
+                                  <div v-for="(history) in problemScreen.problem.history" class="alert  pb-0 pl-2 pt-1">
+                                    <i class="far fa-calendar-alt"></i> {{history.date}} <i class="fas fa-caret-right"></i> {{history.name}}
+                                    <template v-if="(''+history.comment).length">
+                                        <br><i class="far fa-comment-alt"></i> {{history.comment}}
+                                    </template>
+                                  </div>
+                              </div>
                         </div>
-                        <div class="col-lg-9 col-12">
-                            Описание
+                        <div class="col-lg-2 col-12">
+                            <div class="col-12 p-2">
+                                Комментарии
+                                <div class="alert alert-secondary mt-2 mb-2">Комментарий</div>
+                            </div>
                         </div>
-                        <div class="col-lg-9 col-12">
-                            Набор датасэтов
-                        </div>
-                        <div class="col-lg-9 col-12">
-                            Набор датасэтов
-                        </div>
+                        
+                        
+
                     </div>
                 </div>
                 <div v-if="modes.userPage" class="row justify-content-center mb-2">
@@ -137,75 +236,22 @@
                                 <div class="card card-body p-1 mt-3 text-left">
                                     
                                         <div class="h5">Актуальный статус</div>
-                                                                {{curProblem.history[curProblem.history.length-1].date}} -> {{curProblem.history[curProblem.history.length-1].name}}
-                                                                <p>{{curProblem.history[curProblem.history.length-1].comment}}</p>
-                                                            </div>
+                                        <div class="alert  pb-0 pl-2 pt-1">
+                                            <i class="far fa-calendar-alt"></i> {{curProblem.history[curProblem.history.length-1].date}} <i
+                                                class="fas fa-caret-right"></i> {{curProblem.history[curProblem.history.length-1].name}}
+                                            <template v-if="(''+curProblem.history[curProblem.history.length-1].comment).length">
+                                                <br><i class="far fa-comment-alt"></i> {{curProblem.history[curProblem.history.length-1].comment}}
+                                            </template>
+                                        </div>
+                                            
+                                </div>
                             </div>
                         </div>                       
                         
                     </div>
                 </div>
                 <div v-if="modes.mainScreen" class="row mb-2">
-                        <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="">
-                                            ФОРМА РЕГИСТРАЦИИ
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-
-                                        <button type="button" class="btn btn-primary">Продолжить</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    <div class="modal fade" id="modalAuth" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row justify-content-center">
-                                        <div class="col-12">
-                                            <div class="h5">Имя пользователя</div>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
-                                                </div>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                            <div class="h5">Пароль</div>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                                </div>
-                                                <input type="password" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-
-                    
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                        @click="authorizedMode()">Продолжить</button>
-                    
-                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        
 
                     <div class="bg-light col-12 col-md-4 pt-2">
                         <div class="h5">Поиск проблемы</div>

@@ -18,3 +18,19 @@ body{
 .mh-179{
     min-height: 179px;
 }
+.problem-screen-desc{
+ font-size: 14pt;
+ font-family: "LatoWebMono";   
+}
+.star-counts{
+font-size: 14pt;
+    font-family: "LatoWebBold";
+    /* right: 0.2rem; */
+    line-height: 2;
+    margin: 0 auto;
+    position: relative;
+}
+.text-underlined {
+    text-decoration: underline!important;
+    cursor: pointer;
+}

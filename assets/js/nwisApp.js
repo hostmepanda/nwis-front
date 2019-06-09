@@ -1,3 +1,61 @@
+let testData_selectedProblem = {
+    userList: [
+        {
+            id: "1",
+            name: "Иванов Илья",
+            role: "",
+        },
+        {
+            id: "2",
+            name: "Александр Прибылов",
+            role: "",
+        },
+        {
+            id: "3",
+            name: "Василиса Алексеевна",
+            role: "",
+        },
+        {
+            id: "4",
+            name: "Пётр Иванко",
+            role: "",
+        },
+    ],
+    name: "Экологическая угроза в Санкт-Петербург",
+    description: "Данные по экологической ситуации в г. Санкт-Петербург за 2019 год. Вывод: всё стало только хуже!",
+    dataSets: [],
+    history: [
+        {
+            date: "01.03.2019",
+            name: "Опубликовано",
+            comment: ""
+        }, {
+            date: "04.03.2019",
+            name: "Отправлено в Росприроднадзор",
+            comment: ""
+        }, {
+            date: "04.03.2019",
+            name: "Отправлено в Администрацию г. Санкт-Петербург",
+            comment: ""
+        }, {
+            date: "04.04.2019",
+            name: "Принят к исоплнению",
+            comment: "Проблема известа, решается "
+        }
+    ],
+    isPublished: true,
+    isSend: true,
+    date: "20.02.2019",
+    id: 0,
+    category: [
+        {
+            id: 1,
+            name: "Экология",
+            orgs: [],
+        },
+    ]
+};
+
 let testData_currentUserProblems = [
     {
         userList: [
@@ -195,6 +253,7 @@ let appChart = new Vue({
         },
         problemScreen:{
             id:0,
+            problem:{},
         }
     },
     methods: {
@@ -202,8 +261,9 @@ let appChart = new Vue({
             this.modes.problemPage = true;
             this.modes.mainScreen = false;
             this.modes.userPage = false;
-            this.problemScreen=id;
-            
+            this.problemScreen.id=id;
+            // axios().then().catch()
+            this.problemScreen.problem=testData_selectedProblem;
         },
         switchTabUserPage:function(){
             if (this.modes.userPageTab=="actual"){
@@ -213,11 +273,11 @@ let appChart = new Vue({
             }
         },  
         construct:function(){
-            this.modes.userPage = true;
-            this.modes.mainScreen = false;
-            this.modes.authMode=true;
-            this.getUserProblems();
-            this.modes.userPageTab = 'actual';
+            // this.modes.userPage = true;
+            // this.modes.mainScreen = false;
+            // this.modes.authMode=true;
+            // this.getUserProblems();
+            // this.modes.userPageTab = 'actual';
 
         },
         getUserProblems:function(){
@@ -229,7 +289,8 @@ let appChart = new Vue({
         unAuthUser:function(){
             this.modes.authMode=false;
             this.modes.userPage=false;
-            this.modes.mainScreen=true;
+            this.modes.mainScreen = true;
+            this.modes.problemPage=false;
             console.log("Unauthrizing user");
             
         },
@@ -237,6 +298,7 @@ let appChart = new Vue({
             this.modes.authMode = true;
             this.modes.userPage = true;
             this.modes.mainScreen=false;
+            this.modes.problemPage = false;
             this.getUserProblems();
             this.modes.userPageTab = 'actual';
             $("#modalAuth").modal("hide");
