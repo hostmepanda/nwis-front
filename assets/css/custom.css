@@ -34,3 +34,15 @@ font-size: 14pt;
     text-decoration: underline!important;
     cursor: pointer;
 }
+#myChart{
+        /* width: 600px!important; */
+    /* height: 700px!important; */
+}
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: black;
+    border: 1px solid #6f6f6f33;
+    border-radius: 8px;
+    padding: 4px 5px;
+    background-color: #80808047;
+}

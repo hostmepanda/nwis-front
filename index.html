@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/latofonts.css">
         <link rel="stylesheet" href="assets/css/custom.css">
+        <link rel="stylesheet" href="assets/css/bootstrap-tagsinput.css">
         <link rel="icon" href="/favicon.ico">
         <link href="assets/css/all.css" rel="stylesheet">
         <script src="assets/js/jquery.js"></script>
@@ -15,6 +16,8 @@
         <script src="assets/js/axios.min.js"></script>
         <script src="assets/js/chart.min.js"></script>
         <script src="assets/js/cookie.js"></script>
+        <script src="assets/js/typeahead.js"></script>
+        <script src="assets/js/bootstrap-tagsinput.js"></script>
         <!-- <script src="assets/js/vue-route.js" ></script> -->
         <!-- <script src="assets/vue/sideWidget.vue"></script> -->
     </head>
@@ -333,7 +336,11 @@
                                             <i class="fas fa-city"></i>
                                         </span>
                                     </div>
-                                    <input class="form-control">
+                                    <div id="mainScreeRegion">
+                                        <input class="form-control typeahead" >
+                                    </div>
+                                    <input data-role="tagsinput" class="form-control">
+
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-6 col-12">
@@ -344,13 +351,16 @@
                                             <i class="fas fa-chart-area"></i>
                                         </span>
                                     </div>
-                                    <input class="form-control">
+                                    <!-- <input class="form-control"> -->
+                                        <select class="form-control" v-model="selectedDataSet.selectedCategory">
+                                            <option selected="selected" value="Экология">Экология</option>
+                                        </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                CHARTS HERE
+                                <canvas class="position-relative" id="myChart" height="150px"></canvas>
                             </div>
                         </div>
 
@@ -376,5 +386,6 @@
         </div>
     </body>
     <script src="assets/js/nwisApp.js" defer></script>
+    <script src="assets/js/testChartsData.js" defer></script>
 
 </html>

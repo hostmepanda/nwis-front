@@ -291,6 +291,10 @@ let appChart = new Vue({
             name:"",
             password:"", // <--- BERY BAD IDEA!!!,
             token:"",
+        },
+        selectedDataSet:{
+            selectedCategory:"",
+            selectedRegion:[],
         }
     },
     methods: {
