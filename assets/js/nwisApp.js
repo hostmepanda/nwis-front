@@ -289,6 +289,8 @@ let appChart = new Vue({
             role:"",
             id:"",
             name:"",
+            password:"", // <--- BERY BAD IDEA!!!,
+            token:"",
         }
     },
     methods: {
@@ -314,6 +316,13 @@ let appChart = new Vue({
             // this.getUserProblems();
             // this.modes.userPageTab = 'actual';
             this.getTopProblems();
+            let cooka=Cookies.get("NWIS.requestToken");
+            if (typeof(cooka)!=='undefined'){
+                this.userData.token = cooka;
+                this.getUserInfo();
+                this.modes.authMode=true;
+            }
+            
 
         },
         getUserProblems:function(){
@@ -327,6 +336,7 @@ let appChart = new Vue({
             this.modes.userPage=false;
             this.modes.mainScreen = true;
             this.modes.problemPage=false;
+            Cookies.set("NWIS.requestToken","",{expires:-1})
             console.log("Unauthrizing user");
             
         },
@@ -387,9 +397,15 @@ let appChart = new Vue({
                 
             })
         },
-        loginUser:function(){
-            let data = {};
+        loginUser: function (attr){
+            let data = {
+                name:this.userData.name,
+                password:this.userData.password,
+            };
+            console.log(data);
+            
             axios({
+                method: "POST",
                 url: "http://localhost:8080/login",
                 data: data,
                 headers: { 
@@ -400,20 +416,29 @@ let appChart = new Vue({
             })
             .then(r => {
                 console.log(r);
+                if(parseInt(r.status)==200){
+                    appChart.userData.token = r.headers.authorization;
+                    Cookies.set("NWIS.requestToken", appChart.userData.token,{expires:10});
+                    appChart.authorizedMode();
+                }
             })
             .catch(err => {
                 console.log(`>>> Throw ${err}`);
             })
         },
         signUp: function () {
-            let data = {
-                role:"ADMIN",
-                passwords:"123",
-                name:"Иван Пенкович Редька"
-            };
+            // let data = {
+            //     role:"ADMIN",
+            //     password:"123",
+            //     name:"Иван Пенкович Редька"
+            // };
+            if(this.userData.role=="" || this.userData.name=="" || this.userData.password==""){
+                return false;
+            }
             axios({
-                url: "http://localhost:8080//users/sign-up",
-                data: data,
+                method:"POST",
+                url: "http://localhost:8080/users/sign-up",
+                data: { "role": appChart.userData.role, name: appChart.userData.name, password: appChart.userData.password },
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -422,18 +447,27 @@ let appChart = new Vue({
             })
                 .then(r => {
                     console.log(r);
+                    if(parseInt(r.status)==200){
+                        // appChart.userData.name = data.name;
+                        // appChart.userData.password = data.password;
+                        appChart.loginUser();
+                        $("#modalRegister").modal("hide");
+                    }
                 })
                 .catch(err => {
                     console.log(`>>> Throw ${err}`);
                 })
         },
         getUserInfo:function(user){
+            if (appChart.userData.token==""){
+                return false;
+            }
             axios({
                 method:"GET",
                 url:"http://localhost:8080/users/get-full-user-info",
                 headers:{
                     "Content-Type": "application/json",
-                    "Authorization": appChart.requestData.user.Authorization,
+                    "Authorization": appChart.userData.token,
                 },
             })
             .then(r=>{

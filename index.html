@@ -14,6 +14,7 @@
         <script src="assets/js/vue-dev.js"></script>
         <script src="assets/js/axios.min.js"></script>
         <script src="assets/js/chart.min.js"></script>
+        <script src="assets/js/cookie.js"></script>
         <!-- <script src="assets/js/vue-route.js" ></script> -->
         <!-- <script src="assets/vue/sideWidget.vue"></script> -->
     </head>
@@ -54,14 +55,38 @@
                             </div>
                             <div class="modal-body">
                                 <div class="">
-                                    ФОРМА РЕГИСТРАЦИИ
+                                    <div class="row justify-content-center">
+                                        <div class="col-12">
+                                            <div class="h5">Имя пользователя/Логин</div>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" v-model="userData.name">
+                                            </div>
+                                            <div class="h5">Пароль</div>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                                </div>
+                                                <input type="password" class="form-control" v-model="userData.password">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <select class="form-control" v-model="userData.role">
+                                                    <option value="ADMIN">Администратор системы</option>
+                                                    <option value="USER">Пользователь</option>
+                                                    <option value="ORGS">Представитель Гос. Органов</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
 
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-
-                                <button type="button" class="btn btn-primary">Продолжить</button>
+                                <button v-if=" userData.role!=='' && (''+userData.password).length>2 && (''+userData.name.length)>2" type="button" class="btn btn-primary" @click="signUp()">Продолжить</button>
+                                <button v-else type="button" class="btn btn-primary">Продолжить</button>
                             </div>
                         </div>
                     </div>
@@ -76,32 +101,28 @@
                             <div class="modal-body">
                                 <div class="row justify-content-center">
                                     <div class="col-12">
-                                        <div class="h5">Имя пользователя</div>
+                                        <div class="h5">Имя пользователя/Логин</div>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
                                             </div>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" v-model="userData.name">
                                         </div>
                                         <div class="h5">Пароль</div>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                                             </div>
-                                            <input type="password" class="form-control">
+                                            <input type="password" class="form-control" v-model="userData.password">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-
-
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                    @click="authorizedMode()">Продолжить</button>
-
-
+                                <button  type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                <button v-if="(''+userData.name).length>2 && (''+userData.password).length>2" type="button" class="btn btn-primary" data-dismiss="modal"
+                                    @click="loginUser()">Продолжить</button>
+                                <div v-else class="btn btn-secondary disabled">Продолжить</div>
                             </div>
                         </div>
                     </div>
@@ -269,31 +290,37 @@
                             </div>
                             <input class="form-control">
                         </div>
-                        <div v-for="(problem, problemKey, problemIndex) in globalDataSets.topProblems"
-                            class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                            <div class="col p-4 d-flex flex-column position-static">
-                                <strong class="d-inline-block mb-2 text-primary">
-                                    <div class="top10-item-caption d-inline-flex">{{problem.name}}</div>
-                                    <template v-if="problem.userList.length>=warningProblemBorder">
-                                        <div class="mb-0 d-inline-flex float-right hot-problem-cust position-absolute"
-                                            :class="{'text-warning':problem.userList.length<dangerProblemBorder,'text-danger':problem.userList.length>=dangerProblemBorder}">
-                                            <i class="fas fa-fire-alt"></i></div>
-
-                                    </template>
-                                </strong>
-
-                                <div class="mb-1 text-muted">{{problem.date}}</div>
-                                <p class="card-text mb-auto">{{ cutOutput(problem.description,120)}}</p>
-                                <a href="#" class="stretched-link" @click="openProblem(problem.id)">Перейти к проблеме</a>
+                        <template v-if="globalDataSets.topProblems.length">
+                            <div v-for="(problem, problemKey, problemIndex) in globalDataSets.topProblems"
+                                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <strong class="d-inline-block mb-2 text-primary">
+                                        <div class="top10-item-caption d-inline-flex">{{problem.name}}</div>
+                                        <template v-if="problem.userList.length>=warningProblemBorder">
+                                            <div class="mb-0 d-inline-flex float-right hot-problem-cust position-absolute"
+                                                :class="{'text-warning':problem.userList.length<dangerProblemBorder,'text-danger':problem.userList.length>=dangerProblemBorder}">
+                                                <i class="fas fa-fire-alt"></i></div>
+                            
+                                        </template>
+                                    </strong>
+                            
+                                    <div class="mb-1 text-muted">{{problem.date}}</div>
+                                    <p class="card-text mb-auto">{{ cutOutput(problem.description,120)}}</p>
+                                    <a href="#" class="stretched-link" @click="openProblem(problem.id)">Перейти к проблеме</a>
+                                </div>
+                                <div class="col-auto bg-dark">
+                                    <svg class="bd-placeholder-img" width="200" height="100%" xmlns="http://www.w3.org/2000/svg"
+                                        preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                            
+                                    </svg>
+                            
+                                </div>
                             </div>
-                            <div class="col-auto bg-dark">
-                                <svg class="bd-placeholder-img" width="200" height="100%" xmlns="http://www.w3.org/2000/svg"
-                                    preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                        </template>
+                        <template v-else>
+                            <div class="alert alert-success">Список проблем пуст :)</div>
+                        </template>
 
-                                </svg>
-
-                            </div>
-                        </div>
                     </div>
                     <div class="col-md-8 col-12 ">
                         <div class="h4">Поиск данных</div>
