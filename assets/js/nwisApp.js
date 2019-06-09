@@ -1,3 +1,28 @@
+let testProblem1={
+    name:"Тестовая прооблема по экологиии",
+    description:"Эта проблема относится к качеству воздуха окружающей среды города Санкт-Петербург и прилежащих областей",
+    dataSets:[],
+    ownerId:4,
+    category:[
+        {
+            id:1,
+            name:"Экология",
+            orgs:[
+                "Федеральная служба по гидрометеорологии и мониторингу окружающей среды",
+                "Росприроднадзор",
+                "Федеральное агентство водных ресурсов",
+                "Федеральное агентство лесных ресурсов",
+                "Федеральное агентство по недропользованию",
+            ],
+        }
+    ],
+    isPublished:true,
+    isSend:false,
+    history:[{date:"20.03.2019",name:"Опубликована"}],
+    userList:[{id:4,name:"user"}],
+}
+
+
 let testData_selectedProblem = {
     userList: [
         {
@@ -248,12 +273,22 @@ let appChart = new Vue({
             problemPage:false,
         },
         globalDataSets:{
-            topProblems: testData_top10Problems,
+            topProblems: [],
             currentUserProblems: {},
         },
         problemScreen:{
             id:0,
             problem:{},
+        },
+        requestData:{
+            user:{
+                Authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoiQURNSU4iLCJleHAiOjE1NjA5MTIyMDN9.VuEnSynoN6jALVVRdo6iEBezHqYwjkiCNJ1ZnEY65dZsqrbuWJkz0A1Cufm2kn37t6oEexE--WvgKTdCRWDlDg"
+            }
+        },
+        userData:{
+            role:"",
+            id:"",
+            name:"",
         }
     },
     methods: {
@@ -278,6 +313,7 @@ let appChart = new Vue({
             // this.modes.authMode=true;
             // this.getUserProblems();
             // this.modes.userPageTab = 'actual';
+            this.getTopProblems();
 
         },
         getUserProblems:function(){
@@ -322,6 +358,154 @@ let appChart = new Vue({
                 $("#modalAuth").modal("show");
         
             // }, 500)
+        },
+        getTopProblems:function(){
+            let data={};
+            axios({
+                url:"http://localhost:8080/api/top-problems",
+                data:data,
+                headers:{"Content-Type": "application/json"},
+                xsrfCookieName: 'XSRF-TOKEN',
+                xsrfHeaderName: 'X-XSRF-TOKEN',
+            })
+            .then(r=>{
+                console.log(r);
+                if(typeof(r.data)!=="undefined"){
+                    r.data.map((obj,ind)=>{
+                        // console.log(obj);
+                        objJSON = JSON.parse(obj.payload);
+                        objJSON.id=obj.id;
+
+                        console.log("<< Got response fot TOP-10 Problems",objJSON);
+                        appChart.globalDataSets.topProblems.push(objJSON);
+                        
+                    });
+                }
+            })
+            .catch(err=>{
+                console.log(`>>> Throw ${err}`);
+                
+            })
+        },
+        loginUser:function(){
+            let data = {};
+            axios({
+                url: "http://localhost:8080/login",
+                data: data,
+                headers: { 
+                    "Content-Type": "application/json",
+                 },
+                xsrfCookieName: 'XSRF-TOKEN',
+                xsrfHeaderName: 'X-XSRF-TOKEN',
+            })
+            .then(r => {
+                console.log(r);
+            })
+            .catch(err => {
+                console.log(`>>> Throw ${err}`);
+            })
+        },
+        loginUser: function () {
+            let data = {
+                role:"ADMIN",
+                passwords:"123",
+                name:"Иван Пенкович Редька"
+            };
+            axios({
+                url: "http://localhost:8080//users/sign-up",
+                data: data,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                // xsrfCookieName: 'XSRF-TOKEN',
+                // xsrfHeaderName: 'X-XSRF-TOKEN',
+            })
+                .then(r => {
+                    console.log(r);
+                })
+                .catch(err => {
+                    console.log(`>>> Throw ${err}`);
+                })
+        },
+        getUserInfo:function(user){
+            axios({
+                method:"GET",
+                url:"http://localhost:8080/users/get-full-user-info",
+                headers:{
+                    "Content-Type": "application/json",
+                    "Authorization": appChart.requestData.user.Authorization,
+                },
+            })
+            .then(r=>{
+                console.log(r);
+                if(typeof r.data !== 'undefined'){
+                    appChart.userData=r.data;
+                }
+                
+            })
+            .catch(err=>{
+                console.log(`>>> Throw ${err}`);
+                
+            })
+        },
+        createProblem:function(){
+            let data = testProblem1;
+            axios({
+                method:"POST",
+                url:"http://localhost:8080/api/create-problem",
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization": appChart.requestData.user.Authorization,                    
+                },
+                data:data,
+            })
+            .then(r=>{
+                console.log(r);
+                
+            })
+            .catch(err=>{
+                console.log(`>>> THROW ${err}`);
+                
+            })
+        },
+        getAllProblemsByUserId:function(){
+
+            axios({
+                method: "GET",
+                url: `http://localhost:8080/api/get-problems/${appChart.userData.id}`,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": appChart.requestData.user.Authorization,
+                },
+                data: {},
+            })
+                .then(r => {
+                    console.log(r);
+
+                })
+                .catch(err => {
+                    console.log(`>>> THROW ${err}`);
+
+                })
+        },
+        deleteProblemFromDB:function(id){
+            ///api/delete-problem/{id} DELETE
+            axios({
+                method:"DELETE",
+                url: `http://localhost:8080/api/delete-problem/${id}`,
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization": appChart.requestData.user.Authorization,
+                },
+            })
+            .then(r=>{
+                console.log(r);
+                
+            })
+            .catch(err=>{
+                console.log(`>>> THROW ${err}`);
+                
+            })
         },
     },
 });
