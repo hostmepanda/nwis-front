@@ -382,7 +382,7 @@ let air_spb_kolpino = {
             labels: ['Оксид углерода', 'Оксид азота', 'Диоксид азота', 'Диоксид серы',],
             datasets: [
                 {
-                    label: 'Измерение воздуха: среднесуточное',
+                    label: 'Колписнкий: измерение воздуха: среднесуточное',
                     data: [0.1, 0.3, 0.7, 0.1],
 
                     backgroundColor: [
@@ -444,24 +444,24 @@ $('#mainScreeRegion .typeahead').typeahead({
         $("#regionTags").tagsinput("add", suggest);
         $('#mainScreeRegion .typeahead').typeahead('val', '');
         appChart.selectedDataSet.selectedRegion.push(suggest);
-        if (suggest=="Выборгский"){
-            myChart.data.dataset.push({
-                label: 'Измерение воздуха: среднесуточное',
-                data: [0.2, 0.8, 1.4, 0],
+        // if (suggest=="Выборгский"){
+        //     myChart.data.dataset.push({
+        //         label: 'Измерение воздуха: среднесуточное',
+        //         data: [0.2, 0.8, 1.4, 0],
 
-                backgroundColor: [
-                    'rgba(160,0,0, 0)',
+        //         backgroundColor: [
+        //             'rgba(160,0,0, 0)',
 
 
 
-                ],
-                borderColor: [
-                    'rgba(0,150,0, 1)'
-                ],
-                borderWidth: 3,
-                    type: "line",
-            });
-        }
+        //         ],
+        //         borderColor: [
+        //             'rgba(0,150,0, 1)'
+        //         ],
+        //         borderWidth: 3,
+        //             type: "line",
+        //     });
+        // }
     });
 
     $("#regionTags").on("itemRemoved",function(e){
@@ -505,4 +505,45 @@ let emptyDataSet={
 
 
 var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, water_SPB_SESTR.dataset);
+
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Оксид углерода', 'Оксид азота', 'Диоксид азота', 'Диоксид серы',],
+        datasets: [
+            {
+                label: 'Измерение воздуха: среднесуточное',
+                data: [0.2, 1.0, 1.4, 0.1],
+
+                backgroundColor: [
+                    'rgba(160,0,0, 0)',
+
+
+
+                ],
+                borderColor: [
+                    'rgba(0,150,0, 1)'
+                ],
+                borderWidth: 3
+            },
+            {
+                label: 'Колписнкий: измерение воздуха: среднесуточное',
+                data: [0.1, 0.3, 0.7, 0.1],
+
+                backgroundColor: [
+                    'rgba(160,0,0, 0)',
+
+
+
+                ],
+                borderColor: [
+                    'rgba(0,150,0, 1)'
+                ],
+                borderWidth: 3,
+                type: "line",
+            }
+        ]
+    },
+    grapOptions
+});
+

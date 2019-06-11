@@ -1,7 +1,7 @@
 let testProblem1={
-    name:"Тестовая прооблема по экологиии",
-    description:"Эта проблема относится к качеству воздуха окружающей среды города Санкт-Петербург и прилежащих областей",
-    dataSets:[],
+    name:"Не эффектифная работа WIFI в точке кипения",
+    description:"Да, это действительно проблема...",
+    dataSets:[{id:1}],
     ownerId:4,
     category:[
         {
@@ -18,8 +18,8 @@ let testProblem1={
     ],
     isPublished:true,
     isSend:false,
-    history:[{date:"20.03.2019",name:"Опубликована"}],
-    userList:[{id:4,name:"user"}],
+    history: [{ date: "20.03.2019", name: "Опубликована" }, { date: "21.03.2019", name: "Отправлена в Росприроднадзор" }, { date: "21.04.2019", name: "Получен ответ в Росприроднадзор",comment:"Уточните данные по региону" }],
+    userList: [{ id: 4, name: "user" }, { id: 5, name: "user" }, { id: 6, name: "user" }, { id: 7, name: "user" }, { id: 4, name: "user" }, { id: 5, name: "user" }, { id: 6, name: "user" }, { id: 7, name: "user" }, { id: 4, name: "user" }, { id: 5, name: "user" }, { id: 6, name: "user" }, { id: 7, name: "user" }],
 }
 
 
@@ -379,7 +379,7 @@ let appChart = new Vue({
         getTopProblems:function(){
             let data={};
             axios({
-                url:"http://78.155.206.137:8080/api/top-problems",
+                url:"http://localhost:8080/api/top-problems",
                 data:data,
                 headers:{"Content-Type": "application/json"},
                 xsrfCookieName: 'XSRF-TOKEN',
@@ -413,7 +413,7 @@ let appChart = new Vue({
             
             axios({
                 method: "POST",
-                url: "http://78.155.206.137:8080/login",
+                url: "http://localhost:8080/login",
                 data: data,
                 headers: { 
                     "Content-Type": "application/json",
@@ -444,7 +444,7 @@ let appChart = new Vue({
             }
             axios({
                 method:"POST",
-                url: "http://78.155.206.137:8080/users/sign-up",
+                url: "http://localhost:8080/users/sign-up",
                 data: { "role": appChart.userData.role, name: appChart.userData.name, password: appChart.userData.password },
                 headers: {
                     "Content-Type": "application/json",
@@ -471,7 +471,7 @@ let appChart = new Vue({
             }
             axios({
                 method:"GET",
-                url:"http://78.155.206.137:8080/users/get-full-user-info",
+                url:"http://localhost:8080/users/get-full-user-info",
                 headers:{
                     "Content-Type": "application/json",
                     "Authorization": appChart.userData.token,
@@ -493,7 +493,7 @@ let appChart = new Vue({
             let data = testProblem1;
             axios({
                 method:"POST",
-                url:"http://78.155.206.137:8080/api/create-problem",
+                url:"http://localhost:8080/api/create-problem",
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization": appChart.requestData.user.Authorization,                    
@@ -513,7 +513,7 @@ let appChart = new Vue({
 
             axios({
                 method: "GET",
-                url: `http://78.155.206.137:8080/api/get-problems/${appChart.userData.id}`,
+                url: `http://localhost:8080/api/get-problems/${appChart.userData.id}`,
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": appChart.requestData.user.Authorization,
@@ -531,7 +531,7 @@ let appChart = new Vue({
         },
         deleteProblemFromDB:function(id){
             ///api/delete-problem/{id} DELETE
-            let deleteURL = `http://78.155.206.137:8080/api/delete-problem/${id}`;
+            let deleteURL = `http://localhost:8080/api/delete-problem/${id}`;
             console.log("Delete url", deleteURL);
             
             axios.delete({

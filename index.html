@@ -179,7 +179,8 @@
                             </div>
                             <div class="col-12">
                                 <div class="h3">Данные по проблеме</div>
-                                {{problemScreen.problem.datasets}}
+                                <canvas class="position-relative" id="myChart2" height="150px"></canvas>
+                                
                             </div>
                               <div class="col-12 bg-light pb-2 pt-2">
                                   <div v-for="(history) in problemScreen.problem.history" class="alert  pb-0 pl-2 pt-1">
